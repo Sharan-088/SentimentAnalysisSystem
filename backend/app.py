@@ -8,13 +8,16 @@ from flask_cors import CORS   #new line
 import os
 import sys
 
-# Add src folder to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+# Add src folder to path (src is one level up from backend/)
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+sys.path.insert(0, os.path.join(BASE_DIR, 'src'))
 
 from sentiment_predictor import SentimentPredictor
 
-app = Flask(__name__)
-CORS(app)    #newly added line
+app = Flask(__name__, 
+            template_folder=os.path.join(BASE_DIR, 'templates'),
+            static_folder=os.path.join(BASE_DIR, 'static'))
+CORS(app)
 
 # Initialize the sentiment predictor
 try:
@@ -125,13 +128,13 @@ def batch_predict():
 
 
 if __name__ == '__main__':
-    # Check if models exist
-    if not os.path.exists('logistic_regression_model.pkl'):
+    # Check if models exist (models are in root, one level up)
+    model_path = os.path.join(BASE_DIR, 'logistic_regression_model.pkl')
+    if not os.path.exists(model_path):
         print("\n" + "="*60)
         print("WARNING: Model files not found!")
         print("Please train the models first by running:")
-        print("  python main.py")
-        print("  Then select Option 1: Train models")
+        print("  python retrain_models.py")
         print("="*60 + "\n")
     
     # Run the Flask app

@@ -31,20 +31,27 @@ class SentimentPredictor:
     def load_model(self):
         """
         Load the saved model and vectorizer
+        Look for pkl files in root directory (one level up from src/)
         """
         try:
+            # Root directory is one level up from src/
+            root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            
+            vectorizer_path = os.path.join(root_dir, 'vectorizer.pkl')
+            model_path = os.path.join(root_dir, f'{self.model_name}_model.pkl')
+            
             # Load vectorizer
-            with open('vectorizer.pkl', 'rb') as f:
+            with open(vectorizer_path, 'rb') as f:
                 self.vectorizer = pickle.load(f)
             
             # Load model
-            with open(f'{self.model_name}_model.pkl', 'rb') as f:
+            with open(model_path, 'rb') as f:
                 self.model = pickle.load(f)
             
             print(f"Model '{self.model_name}' loaded successfully!")
         except FileNotFoundError as e:
             print(f"Error: {e}")
-            print("Make sure the model files exist. Run model_training.py first.")
+            print("Make sure the model files exist. Run retrain_models.py first.")
     
     
     def predict(self, text):

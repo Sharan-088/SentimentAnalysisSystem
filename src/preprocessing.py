@@ -59,7 +59,7 @@ class TextPreprocessor:  #Syntax -> class Class_Name :
         """
         Step 2: Split text into individual words (tokens)
         """
-        tokens = word_tokenize(text)
+        tokens = word_tokenize(text)  #this is used to tokenize the sentence
         return tokens
     
     

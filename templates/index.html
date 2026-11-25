@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🎭 Sentiment Analysis System</h1>
+            <p class="subtitle">Analyze the sentiment of any text using Machine Learning</p>
+        </header>
+
+
+
+        {% if not model_loaded %}
+        <div class="alert alert-error">
+            <strong>⚠️ Model Not Loaded!</strong><br>
+            Please train the models first by running: <code>python main.py</code>
+        </div>
+        {% endif %}
+
+        <!-- Main Content -->
+        <main>
+            <!-- Single Text Analysis -->
+            <section class="analysis-section">
+                <h2>Analyze Text Sentiment</h2>
+                <div class="input-group">
+                    <textarea 
+                        id="textInput" 
+                        placeholder="Enter your text here... (e.g., 'This product is amazing!')"
+                        rows="6"
+                        {% if not model_loaded %}disabled{% endif %}
+                    ></textarea>
+                    <button 
+                        id="analyzeBtn" 
+                        onclick="analyzeSentiment()"
+                        {% if not model_loaded %}disabled{% endif %}
+                    >
+                        Analyze Sentiment
+                    </button>
+                </div>
+
+                <!-- Result Display -->
+                <div id="resultContainer" class="result-container" style="display: none;">
+                    <h3>Analysis Result</h3>
+                    <div class="result-card">
+                        <div class="sentiment-badge" id="sentimentBadge">
+                            <span id="sentimentText">POSITIVE</span>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-label">Confidence Score</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <div class="confidence-value" id="confidenceValue">95%</div>
+                        </div>
+                        <div class="analyzed-text">
+                            <strong>Analyzed Text:</strong>
+                            <p id="analyzedText"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading Indicator -->
+                <div id="loading" class="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Analyzing sentiment...</p>
+                </div>
+
+                <!-- Error Message -->
+                <div id="errorContainer" class="alert alert-error" style="display: none;">
+                    <span id="errorMessage"></span>
+                </div>
+            </section>
+
+            <!-- Sample Texts -->
+            <section class="samples-section">
+                <h2>Try Sample Texts</h2>
+                <div class="samples-grid">
+                    <button class="sample-btn positive" onclick="useSample('This product is absolutely amazing! I love it so much and highly recommend it.')">
+                        😊 Positive Example
+                    </button>
+                    <button class="sample-btn negative" onclick="useSample('This is terrible. Worst purchase ever. Complete waste of money.')">
+                        😞 Negative Example
+                    </button>
+                    <button class="sample-btn neutral" onclick="useSample('The product works as described. It has some nice features.')">
+                        😐 Neutral Example
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>Sentiment Analysis System | Powered by Machine Learning</p>
+            <p class="footer-tech">Built with Python, Flask, Scikit-learn & NLTK</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

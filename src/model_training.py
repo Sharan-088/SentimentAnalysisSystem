@@ -28,7 +28,7 @@ class SentimentModelTrainer:
     """
     
     def __init__(self):
-        self.preprocessor = TextPreprocessor()
+        self.preprocessor = TextPreprocessor()  #object created for the class 
         self.vectorizer = TfidfVectorizer(max_features=5000, ngram_range=(1, 2))
         self.models = {}
         self.X_train = None

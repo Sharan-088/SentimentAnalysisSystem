@@ -4,6 +4,7 @@ Provides a user-friendly web interface for sentiment prediction
 """
 
 from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS   #new line
 import os
 import sys
 
@@ -13,6 +14,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 from sentiment_predictor import SentimentPredictor
 
 app = Flask(__name__)
+CORS(app)    #newly added line
 
 # Initialize the sentiment predictor
 try:
